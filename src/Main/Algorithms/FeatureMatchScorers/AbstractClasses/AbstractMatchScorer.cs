@@ -5,9 +5,11 @@ using USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.MatchScor
 using USC.GISResearchLab.Geocoding.Core.Queries.Parameters;
 using USC.GISResearchLab.Geocoding.Core.ReferenceDatasets.ReferenceFeatures;
 using USC.GISResearchLab.Geocoding.Core.ReferenceDatasets.ReferenceSourceQueries;
-using USC.GISResearchLab.Common.Core.Geocoders.FeatureMatching;
+
 using System;
+using USC.GISResearchLab.Common.Core.Geocoders.FeatureMatching;
 using USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchingMethods;
+
 
 namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.AbstractClasses
 {
