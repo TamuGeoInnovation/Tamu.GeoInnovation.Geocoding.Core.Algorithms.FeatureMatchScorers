@@ -1,0 +1,6 @@
+C:\DevSource\Tamu\GeoInnovation\Geocoding.Core.Algorithms.FeatureMatchScorers\build\1.0.0\AnyCPU\release\Tamu.GeoInnovation.Geocoding.Core.Algorithms.FeatureMatchScorers.dll.config
+C:\DevSource\Tamu\GeoInnovation\Geocoding.Core.Algorithms.FeatureMatchScorers\build\1.0.0\AnyCPU\release\Tamu.GeoInnovation.Geocoding.Core.Algorithms.FeatureMatchScorers.dll
+C:\DevSource\Tamu\GeoInnovation\Geocoding.Core.Algorithms.FeatureMatchScorers\build\1.0.0\AnyCPU\release\Tamu.GeoInnovation.Geocoding.Core.Algorithms.FeatureMatchScorers.pdb
+C:\DevSource\Tamu\GeoInnovation\Geocoding.Core.Algorithms.FeatureMatchScorers\src\Main\obj\Release\Geocoding.Core.Algorithms.FeatureMatchScorers.Dev.csprojResolveAssemblyReference.cache
+C:\DevSource\Tamu\GeoInnovation\Geocoding.Core.Algorithms.FeatureMatchScorers\src\Main\obj\Release\Tamu.GeoInnovation.Geocoding.Core.Algorithms.FeatureMatchScorers.dll
+C:\DevSource\Tamu\GeoInnovation\Geocoding.Core.Algorithms.FeatureMatchScorers\src\Main\obj\Release\Tamu.GeoInnovation.Geocoding.Core.Algorithms.FeatureMatchScorers.pdb
