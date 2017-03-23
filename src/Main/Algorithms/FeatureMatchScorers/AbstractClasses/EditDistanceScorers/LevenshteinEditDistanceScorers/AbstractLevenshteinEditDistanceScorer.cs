@@ -1286,22 +1286,24 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
 
                     if (String.IsNullOrEmpty(inputZipPlus4) || String.IsNullOrEmpty(featureAddress.ZIPPlus4) || String.Compare(inputZipPlus4, "0000", true) == 0) // if the error is an ommission from the input string or reference data only take half of the full weight
                     {
-                        if (String.IsNullOrEmpty(inputZipPlus4) && String.IsNullOrEmpty(featureAddress.ZIPPlus4)) // if they are both null, zero penalty
-                        {
-                            // do nothing, penalty will stay zero
-                        }
-                        else
-                        {
-                            // if attribute relaxation is allowed and is allowed on this attribute take .2 of the weight, otherwise subtract the whole weight
-                            if (parameterSet.ShouldUseRelaxation && parameterSet.RelaxableAttributes.Contains(AddressComponents.ZipPlus4))
-                            {
-                                penalty = (fullWeight * .2);
-                            }
-                            else
-                            {
-                                penalty = fullWeight;
-                            }
-                        }
+                        //Update 10/20/16 - Baldridge - no longer charging penalty for ommission errors 
+                        //if (String.IsNullOrEmpty(inputZipPlus4) && String.IsNullOrEmpty(featureAddress.ZIPPlus4)) // if they are both null, zero penalty
+                        //{
+                        //    // do nothing, penalty will stay zero
+                        //}
+                        //else
+                        //{
+                        //    // if attribute relaxation is allowed and is allowed on this attribute take .2 of the weight, otherwise subtract the whole weight
+
+                        //    if (parameterSet.ShouldUseRelaxation && parameterSet.RelaxableAttributes.Contains(AddressComponents.ZipPlus4))
+                        //    {
+                        //        penalty = (fullWeight * .2);
+                        //    }
+                        //    else
+                        //    {
+                        //        penalty = fullWeight;
+                        //    }
+                        //}
                     }
                     else
                     {
