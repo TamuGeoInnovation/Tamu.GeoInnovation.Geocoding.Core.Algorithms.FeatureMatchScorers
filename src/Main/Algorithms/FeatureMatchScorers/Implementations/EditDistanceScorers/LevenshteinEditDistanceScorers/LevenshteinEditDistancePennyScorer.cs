@@ -282,6 +282,19 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Imple
                         ret.OverallAddressDistance = 0;
                         ret.OverallParityResultType = FeatureMatchAddressParityResultType.CorrectParity;
                     }
+                    //The following two else if statements are added for NY and HI to account for hyphenated street numbers entered as one concatenated number
+                    else if (String.Compare(inputAddress.Number, pennyAddressPoint.Number + pennyAddressPoint.NumberFractional, true) == 0 && (pennyAddressPoint.State == "NY" || pennyAddressPoint.State == "HI"))
+                    {
+                        ret.OverallAddressDistance = 0;
+                        penalty = AttributeWeightingScheme.ProportionalWeightNumberParity;
+                        ret.OverallParityResultType = FeatureMatchAddressParityResultType.CorrectParity;
+                    }
+                    else if (String.Compare(inputAddress.Number, pennyAddressPoint.Number + '0' + pennyAddressPoint.NumberFractional, true) == 0 && (pennyAddressPoint.State == "NY" || pennyAddressPoint.State == "HI"))
+                    {
+                        ret.OverallAddressDistance = 0;
+                        penalty = AttributeWeightingScheme.ProportionalWeightNumberParity * 2;
+                        ret.OverallParityResultType = FeatureMatchAddressParityResultType.CorrectParity;
+                    }
                     else
                     {
                         if (NumberUtils.isNumber(inputAddress.Number) && NumberUtils.isNumber(pennyAddressPoint.Number))
