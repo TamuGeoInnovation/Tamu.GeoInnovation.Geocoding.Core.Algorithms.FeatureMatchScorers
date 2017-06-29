@@ -227,6 +227,10 @@
       <Name>Geocoding.Core.Algorithms.FeatureMatchScorers.Types.Dev</Name>
       <Private>False</Private>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Geocoding.Core.Metadata.ReferenceSources\src\Main\Geocoding.Core.Metadata.ReferenceSources.Dev.csproj">
+      <Project>{36bf7e5c-d27b-49dc-a7a3-1e9a2845798a}</Project>
+      <Name>Geocoding.Core.Metadata.ReferenceSources.Dev</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Geocoding.Core.Queries\src\Main\Geocoding.Core.Queries.Dev.csproj">
       <Project>{A1CEFF20-E839-47DE-88C4-06A8AD225221}</Project>
       <Name>Geocoding.Core.Queries.Dev</Name>
