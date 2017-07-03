@@ -59,39 +59,39 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
                         switch (matchedFeature.ReferenceSourceType.ToString())
                         {
                             case "Census2000ConsolidatedCities":
-                                matchedFeature.MatchScore += -5;
+                                matchedFeature.MatchScore += -50;
                                 break;
                             case "Census2000Counties":
-                                matchedFeature.MatchScore += -5;
+                                matchedFeature.MatchScore += -60;
                                 break;
                             case "Census2000CountySubRegions":
-                                matchedFeature.MatchScore += -5;
+                                matchedFeature.MatchScore += -60;
                                 break;
                             case "Census2000Places":
-                                matchedFeature.MatchScore += -5;
+                                matchedFeature.MatchScore += -50;
                                 break;
                             case "Census2000States":
-                                matchedFeature.MatchScore += -10;
+                                matchedFeature.MatchScore += -95;
                                 break;
                             case "Census2008TigerLines":                                
                                 break;
                             case "Census2008ZCTAs":
-                                matchedFeature.MatchScore += -3;
+                                matchedFeature.MatchScore += -40;
                                 break;
                             case "Census2010ConsolidatedCities":
-                                matchedFeature.MatchScore += -5;
+                                matchedFeature.MatchScore += -50;
                                 break;
                             case "Census2010Counties":
-                                matchedFeature.MatchScore += -5;
+                                matchedFeature.MatchScore += -60;
                                 break;
                             case "Census2010CountySubRegions":
-                                matchedFeature.MatchScore += -5;
+                                matchedFeature.MatchScore += -60;
                                 break;
                             case "Census2010Places":
-                                matchedFeature.MatchScore += -5;
+                                matchedFeature.MatchScore += -50;
                                 break;
                             case "Census2010States":
-                                matchedFeature.MatchScore += -10;
+                                matchedFeature.MatchScore += -95;
                                 break;
                             case "Census2016TigerLines":
                                 break;
@@ -100,7 +100,7 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
                             case "Census2010TigerLines":
                                 break;
                             case "Census2010ZCTAs":
-                                matchedFeature.MatchScore += -3;
+                                matchedFeature.MatchScore += -40;
                                 break;
                             case "NavteqAddressPoints2016":
                                 break;
@@ -113,10 +113,10 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
                             case "NavteqStreets2012":
                                 break;
                             case "ZipCodeDownloadZips2013":
-                                matchedFeature.MatchScore += -3;
+                                matchedFeature.MatchScore += -40;
                                 break;
                             case "USPSTigerZipPlus4":
-                                matchedFeature.MatchScore += -3;
+                                matchedFeature.MatchScore += -40;
                                 break;
                             default:                                
                                 break;
