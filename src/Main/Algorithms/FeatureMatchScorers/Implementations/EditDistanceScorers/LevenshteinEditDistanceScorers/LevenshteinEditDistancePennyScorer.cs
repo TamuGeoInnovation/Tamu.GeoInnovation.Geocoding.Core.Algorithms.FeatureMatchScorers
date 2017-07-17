@@ -277,19 +277,32 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Imple
                 {
                     PennyAddressPoint pennyAddressPoint = (PennyAddressPoint)referenceFeature.StreetAddressableGeographicFeature;
 
-                    if (String.Compare(inputAddress.Number, pennyAddressPoint.Number, true) == 0)
+                    if ((String.Compare(inputAddress.Number, pennyAddressPoint.Number, true) == 0) && ((String.Compare(inputAddress.NumberFractional,pennyAddressPoint.NumberFractional,true)==0)) || (inputAddress.NumberFractional=="" && pennyAddressPoint.NumberFractional == null))
                     {
                         ret.OverallAddressDistance = 0;
                         ret.OverallParityResultType = FeatureMatchAddressParityResultType.CorrectParity;
                     }
-                    //The following two else if statements are added for NY and HI to account for hyphenated street numbers entered as one concatenated number
-                    else if (String.Compare(inputAddress.Number, pennyAddressPoint.Number + pennyAddressPoint.NumberFractional, true) == 0 && (pennyAddressPoint.State == "NY" || pennyAddressPoint.State == "HI"))
+                    else if ((String.Compare(inputAddress.Number, pennyAddressPoint.Number, true) == 0) && (String.Compare(inputAddress.NumberFractional, pennyAddressPoint.NumberFractional, true) == 1))
                     {
                         ret.OverallAddressDistance = 0;
                         penalty = AttributeWeightingScheme.ProportionalWeightNumberParity;
                         ret.OverallParityResultType = FeatureMatchAddressParityResultType.CorrectParity;
                     }
-                    else if (String.Compare(inputAddress.Number, pennyAddressPoint.Number + '0' + pennyAddressPoint.NumberFractional, true) == 0 && (pennyAddressPoint.State == "NY" || pennyAddressPoint.State == "HI"))
+                    //PAYTON:NY-ADDRESS SCORING The following three else if statements are added for NY and HI to account for hyphenated street numbers entered as one concatenated number
+                    else if (String.Compare(inputAddress.Number + inputAddress.NumberFractional, pennyAddressPoint.Number + pennyAddressPoint.NumberFractional, true) == 0 && (pennyAddressPoint.State == "NY" || pennyAddressPoint.State == "HI"))
+                    {
+                        ret.OverallAddressDistance = 0;
+                        penalty = AttributeWeightingScheme.ProportionalWeightNumberParity;
+                        ret.OverallParityResultType = FeatureMatchAddressParityResultType.CorrectParity;
+                    }
+                    //PAYTON:NY-ADDRESS SCORING 7-16-17
+                    else if (String.Compare(inputAddress.Number+inputAddress.NumberFractional, pennyAddressPoint.Number, true) == 0 && (pennyAddressPoint.State == "NY" || pennyAddressPoint.State == "HI"))
+                    {
+                        ret.OverallAddressDistance = 0;
+                        penalty = AttributeWeightingScheme.ProportionalWeightNumberParity;
+                        ret.OverallParityResultType = FeatureMatchAddressParityResultType.CorrectParity;
+                    }
+                    else if (String.Compare(inputAddress.Number+inputAddress.NumberFractional, pennyAddressPoint.Number + '0' + pennyAddressPoint.NumberFractional, true) == 0 && (pennyAddressPoint.State == "NY" || pennyAddressPoint.State == "HI"))
                     {
                         ret.OverallAddressDistance = 0;
                         penalty = AttributeWeightingScheme.ProportionalWeightNumberParity * 2;
