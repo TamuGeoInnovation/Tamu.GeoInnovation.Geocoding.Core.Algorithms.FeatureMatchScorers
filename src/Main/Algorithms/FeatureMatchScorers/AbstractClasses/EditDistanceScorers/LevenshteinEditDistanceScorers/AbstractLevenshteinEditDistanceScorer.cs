@@ -1580,7 +1580,16 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
                         }
                     }
                 }
-            }
+                //PAYTON:ALIASTABLE
+                if (penalty > 0) //If there is a penalty, check to see if the input city is a valid alias
+                {
+                    bool isValidAlias = CityUtils.isValidAlias(inputAddress.City, featureAddress.City, inputAddress.State);
+                    if(isValidAlias)
+                    {
+                        penalty = 0;
+                    }
+                }
+            }            
             catch (Exception e)
             {
                 ret.ExceptionOccurred = true;
