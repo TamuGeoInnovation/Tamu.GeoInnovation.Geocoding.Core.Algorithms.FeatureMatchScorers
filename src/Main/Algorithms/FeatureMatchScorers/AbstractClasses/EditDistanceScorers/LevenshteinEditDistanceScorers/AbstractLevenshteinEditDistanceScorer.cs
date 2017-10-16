@@ -2076,5 +2076,41 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
 
             return ret;
         }
-    }
+
+        //public class PenaltyCodeResult
+        //{
+        //    //These ints will be scores for each section - lower the score the less severe the penalty i.e. 0 indicates no penalty 9 is max penalty
+        //    #region Penalty Variables
+        //    public int matchScore { get; set; }     //penalty based on matchscore: 0(100),1(90-100),2(80-90),3(70-80)..etc
+        //    public int inputType { get; set; } // PO Box, RR, Zipcode only etc
+        //    public int zip { get; set; } //0-zip matched,1-matched by ambiguous,2-didn't match
+        //    public int city { get; set; } //0-city matched,1-city matched to alias,2-city soundex matched,3-city not matched at all
+        //    public int soundexPenalty { get; set; } //soundex penalty - edit distance/length of word       
+        //    public int zipPenalty { get; set; } //0-zip matched,1-1st digit from right different,2-2nd digit from right different etc       
+        //    public int directionals { get; set; } //pre-post directionals - 0-no error,1-missing pre input,2-missing pre ref,3-missing post input,4-missing post ref
+        //    public int qualifiers { get; set; } //pre-post qualifiers - 0-no error,1-missing pre input,2-missing pre ref,3-missing post input,4-missing post ref
+        //    public int distance { get; set; }     //will assign penalty depending on average distance between all results      
+        //    public int censusBlocks { get; set; }     //census blocks matched 0,didn't match 1
+        //    public int censusTracts { get; set; }     //census Tracts matched 0,didn't match 1      
+        //    public int county { get; set; }     //penalty based on how many counties are different 0-all counties match,9-all counties different       
+
+        //    #endregion
+
+        //    public PenaltyCodeResult()
+        //    {
+        //        matchScore = 0;
+        //        inputType = 0;
+        //        zip = 0;
+        //        city = 0;
+        //        soundexPenalty = 0;
+        //        zipPenalty = 0;
+        //        directionals = 0;
+        //        qualifiers = 0;
+        //        distance = 0;
+        //        censusBlocks = 0;
+        //        censusTracts = 0;
+        //        county = 0;
+        //    }
+        //}
+        }
 }
