@@ -1931,7 +1931,13 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
                         }
                         else
                         {
+                            //PAYTON:CITY
+                            //What is the purpose of this?? If the reference data set does not have a city, this returns 0 penalty - default to always use for now
                             if (!checkReferenceCity)
+                            {
+                                ret = fullWeight;
+                            }
+                            //Adding else to always return fullWeight here
                             {
                                 ret = fullWeight;
                             }
