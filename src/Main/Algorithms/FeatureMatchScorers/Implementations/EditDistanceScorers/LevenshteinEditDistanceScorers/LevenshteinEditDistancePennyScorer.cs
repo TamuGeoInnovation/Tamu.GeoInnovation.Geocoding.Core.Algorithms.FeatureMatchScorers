@@ -32,6 +32,7 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Imple
 
                 if (referenceFeature.AddressComponent == AddressComponents.All)
                 {
+
                     MatchScoreNumberPenaltyResult numberPenalty = ComputePenaltyNumber(parameterSet, inputAddress, referenceFeature, referenceSourceQueryResult, AttributeWeightingScheme);
                     numberPenalty.AddressComponent = AddressComponents.Number;
                     ret.AddressDistance = numberPenalty.OverallAddressDistance;
