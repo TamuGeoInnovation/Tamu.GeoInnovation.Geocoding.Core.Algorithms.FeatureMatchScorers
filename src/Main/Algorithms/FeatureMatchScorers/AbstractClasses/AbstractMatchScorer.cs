@@ -104,6 +104,8 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
                                 break;
                             case "NavteqAddressPoints2016":
                                 break;
+                            case "NavteqAddressPoints2014":
+                                break;
                             case "NavteqAddressPoints2013":
                                 break;
                             case "NavteqAddressPoints2012":
