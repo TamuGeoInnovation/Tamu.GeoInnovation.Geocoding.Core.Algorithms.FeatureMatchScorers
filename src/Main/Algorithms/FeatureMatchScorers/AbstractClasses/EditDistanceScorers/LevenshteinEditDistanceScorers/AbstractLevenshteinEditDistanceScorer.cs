@@ -1509,34 +1509,37 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
             {
                 if (String.Compare(inputAddress.City, featureAddress.City, true) != 0)
                 {
-                    if (!String.IsNullOrEmpty(inputAddress.City))
+                    if(!CityUtils.isValidAlias(inputAddress.City,featureAddress.City,inputAddress.State))
                     {
-
-                        if (!String.IsNullOrEmpty(featureAddress.City))
+                        if (!String.IsNullOrEmpty(inputAddress.City))
                         {
-                            if (StateUtils.isState(inputAddress.City) || StateUtils.isState(featureAddress.City)) // if the city is a state name 'NY, NY' compare both the expanded versions
+
+                            if (!String.IsNullOrEmpty(featureAddress.City))
                             {
-                                penalty = ComputePenaltyCityStateWord(parameterSet, inputAddress.City, featureAddress.City, fullWeight);
-                            }
-                            else if (featureAddress.City.IndexOf(' ') > 0 || featureAddress.City.IndexOf('-') > 0) // if this is a multi-word city try each word and take the best score
-                            {
-                                penalty = ComputePenaltyCityMultiWord(parameterSet, inputAddress, featureAddress, fullWeight);
+                                if (StateUtils.isState(inputAddress.City) || StateUtils.isState(featureAddress.City)) // if the city is a state name 'NY, NY' compare both the expanded versions
+                                {
+                                    penalty = ComputePenaltyCityStateWord(parameterSet, inputAddress.City, featureAddress.City, fullWeight);
+                                }
+                                else if (featureAddress.City.IndexOf(' ') > 0 || featureAddress.City.IndexOf('-') > 0) // if this is a multi-word city try each word and take the best score
+                                {
+                                    penalty = ComputePenaltyCityMultiWord(parameterSet, inputAddress, featureAddress, fullWeight);
+                                }
+                                else
+                                {
+                                    penalty = ComputePenaltyCitySingleWord(parameterSet, inputAddress, featureAddress, fullWeight);
+                                }
+
+                                // if the full penalty has been applied by comparing the input city name against the refernce city name, force it to compare against the mcd, county sub, and county
+                                if (penalty == fullWeight)
+                                {
+                                    penalty = ComputePenaltyCitySingleWord(parameterSet, inputAddress, featureAddress, fullWeight, false);
+                                }
+
                             }
                             else
                             {
                                 penalty = ComputePenaltyCitySingleWord(parameterSet, inputAddress, featureAddress, fullWeight);
                             }
-
-                           // if the full penalty has been applied by comparing the input city name against the refernce city name, force it to compare against the mcd, county sub, and county
-                            if (penalty == fullWeight)
-                            {
-                                penalty = ComputePenaltyCitySingleWord(parameterSet, inputAddress, featureAddress, fullWeight, false);
-                            }
-
-                        }
-                        else
-                        {
-                            penalty = ComputePenaltyCitySingleWord(parameterSet, inputAddress, featureAddress, fullWeight);
                         }
                     }
                     else
