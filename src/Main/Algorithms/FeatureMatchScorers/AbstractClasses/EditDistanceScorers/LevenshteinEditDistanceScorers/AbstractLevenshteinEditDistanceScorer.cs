@@ -1583,8 +1583,9 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
                         }
                     }
                 }
-                //PAYTON:ALIASTABLE
-                if (penalty > 0) //If there is a penalty, check to see if the input city is a valid alias
+                //PAYTON:ALIASTABLE  
+                //TASK:X7-T1 Added variable to allow for not using alias table (10/9/18)
+                if (penalty > 0 && parameterSet.ShouldUseAliasTable) //If there is a penalty, check to see if the input city is a valid alias
                 {
                     bool isValidAlias = CityUtils.isValidAlias(inputAddress.City, featureAddress.City, inputAddress.State);
                     if(isValidAlias)
@@ -1610,7 +1611,7 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
 
             return ret;
         }
-
+        
         public double ComputePenaltyCityStateWord(ParameterSet parameterSet, string inputCity, string referenceCity, double fullWeight)
         {
             double ret = 0;

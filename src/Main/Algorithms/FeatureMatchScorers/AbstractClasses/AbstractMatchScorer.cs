@@ -52,8 +52,9 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
 
                     try
                     {
-                        matchedFeature.MatchScoreStartTimer = DateTime.Now;
-                        matchedFeature.MatchScoreResult = scorer.GetMatchScore(parameterSet, parameterSet.StreetAddress, matchedFeature.MatchedFeatureAddress, matchedFeature.MatchedReferenceFeature, referenceSourceQueryResult, matchScorer);
+                        matchedFeature.MatchScoreStartTimer = DateTime.Now;                                
+                        //TASK:X7-T1 Added variable to parameterSet to allow for not using alias table (10/9/18)
+                        matchedFeature.MatchScoreResult = scorer.GetMatchScore(parameterSet, parameterSet.StreetAddress, matchedFeature.MatchedFeatureAddress, matchedFeature.MatchedReferenceFeature, referenceSourceQueryResult, matchScorer);                        
                         matchedFeature.MatchScore = matchedFeature.MatchScoreResult.MatchScore;
                         //PAYTON:MATCHSCORE if less than streetlevel match - add matchscore penalty accordingly
                         switch (matchedFeature.ReferenceSourceType.ToString())

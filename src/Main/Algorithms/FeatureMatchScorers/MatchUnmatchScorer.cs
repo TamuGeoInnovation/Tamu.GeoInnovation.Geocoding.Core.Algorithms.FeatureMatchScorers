@@ -59,8 +59,8 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers
                 if (matchScorer != null)
                 {
                     matchScorer.AttributeWeightingScheme = AttributeWeightingScheme;
-
-                    ret = matchScorer.GetMatchScore(parameterSet, inputAddress, featureAddress, referenceFeature, referenceSourceQueryResult);
+                    //TASK:X7-T1 Added variable to parameterSet allow for not using alias table (10/9/18)
+                    ret = matchScorer.GetMatchScore(parameterSet, inputAddress, featureAddress, referenceFeature, referenceSourceQueryResult);                                        
                 }
             }
             catch (Exception ex)
