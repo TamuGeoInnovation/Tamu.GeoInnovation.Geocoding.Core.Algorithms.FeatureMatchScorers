@@ -183,7 +183,9 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Imple
                 if (referenceFeature.AddressComponent == AddressComponents.All || referenceFeature.AddressComponent == AddressComponents.City)
                 {
                     //TASK:X7-T1 Added variable to parameterSet allow for not using alias table (10/9/18)
-                    cityPenalty = ComputePenaltyCity(parameterSet, inputAddress, featureAddress, AttributeWeightingScheme.ProportionalWeightCity);                    
+                    //BUGZ7-74 city penalty of 1 results in 0 matchscore. 
+                    //cityPenalty = ComputePenaltyCity(parameterSet, inputAddress, featureAddress, AttributeWeightingScheme.ProportionalWeightCity);
+                    cityPenalty = ComputePenaltyCity(parameterSet, inputAddress, featureAddress, .4);                    
                     cityPenalty.AddressComponent = AddressComponents.City;
 
                     if (cityPenalty.ExceptionOccurred)

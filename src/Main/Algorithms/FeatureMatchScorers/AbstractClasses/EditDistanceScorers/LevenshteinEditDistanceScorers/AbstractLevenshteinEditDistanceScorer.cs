@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
+using System.Text;
 using USC.GISResearchLab.AddressProcessing.Core.Standardizing.StandardizedAddresses.Lines.DeliveryAddressLines.Directionals;
+using USC.GISResearchLab.AddressProcessing.Core.Standardizing.StandardizedAddresses.Lines.DeliveryAddressLines.NamePreQualifiers;
 using USC.GISResearchLab.AddressProcessing.Core.Standardizing.StandardizedAddresses.Lines.DeliveryAddressLines.PostQualifiers;
 using USC.GISResearchLab.AddressProcessing.Core.Standardizing.StandardizedAddresses.Lines.DeliveryAddressLines.PreArticles;
 using USC.GISResearchLab.AddressProcessing.Core.Standardizing.StandardizedAddresses.Lines.DeliveryAddressLines.PreQualifiers;
@@ -1496,7 +1498,7 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
 
             return ret;
         }
-        //BUG:ZI147 Payton- Added code to account for periods in names such as St. Paul. Eventually we need to account for this in the address normalization
+        //BUG:X7-74 Payton- Added code to account for periods in names such as St. Paul. Eventually we need to account for this in the address normalization
         //public MatchScorePenaltyResult ComputePenaltyCity(ParameterSet parameterSet, StreetAddress inputAddress, StreetAddress featureAddress, double fullWeight)
         //{
         //    MatchScorePenaltyResult ret = new MatchScorePenaltyResult();
@@ -1622,8 +1624,9 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
             double penalty = 0;
             double alternatePenalty = fullWeight;
             string inCity = inputAddress.City.Replace(".", string.Empty); 
-            string featCity = featureAddress.City.Replace(".", string.Empty); 
-
+            string featCity = featureAddress.City.Replace(".", string.Empty);
+            string[] parts = inCity.Split(' ');            
+            
             try
             {
                 if (String.Compare(inCity, featCity, true) != 0)
@@ -1637,7 +1640,7 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
                             {
                                 if (StateUtils.isState(inCity) || StateUtils.isState(featCity)) // if the city is a state name 'NY, NY' compare both the expanded versions
                                 {
-                                    penalty = ComputePenaltyCityStateWord(parameterSet, inCity , featCity, fullWeight);
+                                    penalty = ComputePenaltyCityStateWord(parameterSet, inCity, featCity, fullWeight);
                                 }
                                 else if (featCity.IndexOf(' ') > 0 || featCity.IndexOf('-') > 0) // if this is a multi-word city try each word and take the best score
                                 {
@@ -1673,26 +1676,23 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
                             penalty = fullWeight;
                         }
                     }
-
-
-
                     if (!String.IsNullOrEmpty(featureAddress.CityAlternate))
                     {
                         if (String.Compare(featCity, featureAddress.CityAlternate, true) != 0)
                         {
-                            if (String.Compare(inCity , featureAddress.CityAlternate, true) != 0)
+                            if (String.Compare(inCity, featureAddress.CityAlternate, true) != 0)
                             {
-                                if (StateUtils.isState(inCity ) || StateUtils.isState(featureAddress.CityAlternate)) // if the city is a state name 'NY, NY' compare both the expanded versions
+                                if (StateUtils.isState(inCity) || StateUtils.isState(featureAddress.CityAlternate)) // if the city is a state name 'NY, NY' compare both the expanded versions
                                 {
-                                    alternatePenalty = ComputePenaltyCityStateWord(parameterSet, inCity , featureAddress.CityAlternate, fullWeight);
+                                    alternatePenalty = ComputePenaltyCityStateWord(parameterSet, inCity, featureAddress.CityAlternate, fullWeight);
                                 }
                                 else if (featureAddress.CityAlternate.IndexOf(' ') > 0 || featureAddress.CityAlternate.IndexOf('-') > 0) // if this is a multi-word city try each word and take the best score
                                 {
-                                    alternatePenalty = ComputePenaltyCityAlternateMultiWord(parameterSet, inCity , featureAddress.CityAlternate, fullWeight);
+                                    alternatePenalty = ComputePenaltyCityAlternateMultiWord(parameterSet, inCity, featureAddress.CityAlternate, fullWeight);
                                 }
                                 else
                                 {
-                                    alternatePenalty = ComputePenaltyCitySingleWord(parameterSet, inCity , featureAddress.CityAlternate, fullWeight);
+                                    alternatePenalty = ComputePenaltyCitySingleWord(parameterSet, inCity, featureAddress.CityAlternate, fullWeight);
                                 }
                             }
                             else
@@ -1702,6 +1702,125 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
                         }
                     }
                 }
+                //BUG:X7-74 If no match is found but input or feature city contains pre or post qualifers, remove and try match again.
+                //else
+                //{
+                //    string[] inParts = inCity.Split(' ');
+                //    string[] featParts = featCity.Split(' ');
+                //    string[] qualifiers = { "OLDE", "OLD", "OLE", "OL", "TOWNSHIP", "TWNSHIP", "BOROUGH", "TWP", "TOWN", "TOWNE","CITY","BORO","TWN","TWNE" };
+                //    StringBuilder sbin = new StringBuilder();
+                //    StringBuilder sbfeat = new StringBuilder();
+                //    foreach(var part in inParts)
+                //    {
+                //        bool add = true;
+                //        foreach (var qualifier in qualifiers)
+                //        {
+                //            if (part.ToUpper() == qualifier)
+                //            {
+                //                add=false;
+                //            }                            
+                //        }
+                //        if(add)
+                //        {
+                //            sbin.Append(part);
+                //        }
+                //    }
+                //    foreach (var part in featParts)
+                //    {
+                //        bool add = true;
+                //        foreach (var qualifier in qualifiers)
+                //        {
+                //            if (part.ToUpper() == qualifier)
+                //            {
+                //                add = false;
+                //            }
+                //        }
+                //        if (add)
+                //        {
+                //            sbfeat.Append(part);
+                //        }
+                //    }
+
+                //    string inCityMod = sbin.ToString();
+                //    string featCityMod = sbfeat.ToString();
+                //    //inCity = inputAddress.City.Replace(" Old ", string.Empty).Replace(" Olde ", string.Empty).Replace(" Ol ", string.Empty).Replace(" Ole ", string.Empty).Replace(" Township ", string.Empty).Replace(" TWNSP ", string.Empty).Replace(" Borough ", string.Empty);
+                //    //featCity = featureAddress.City.Replace(" Old ", string.Empty).Replace(" Olde ", string.Empty).Replace(" Ol ", string.Empty).Replace(" Ole ", string.Empty).Replace(" Township ", string.Empty).Replace(" TWNSP ", string.Empty).Replace(" Borough ", string.Empty);
+
+                //    if (String.Compare(inCityMod, featCityMod, true) != 0)
+                //    {
+                //        if (!CityUtils.isValidAlias(inCityMod, featCityMod, inputAddress.State))
+                //        {
+                //            if (!String.IsNullOrEmpty(inCityMod))
+                //            {
+
+                //                if (!String.IsNullOrEmpty(featCityMod))
+                //                {
+                //                    if (StateUtils.isState(inCityMod) || StateUtils.isState(featCityMod)) // if the city is a state name 'NY, NY' compare both the expanded versions
+                //                    {
+                //                        penalty = ComputePenaltyCityStateWord(parameterSet, inCityMod, featCityMod, fullWeight);
+                //                    }
+                //                    else if (featCityMod.IndexOf(' ') > 0 || featCityMod.IndexOf('-') > 0) // if this is a multi-word city try each word and take the best score
+                //                    {
+                //                        penalty = ComputePenaltyCityMultiWord(parameterSet, inputAddress, featureAddress, fullWeight);
+                //                    }
+                //                    else
+                //                    {
+                //                        penalty = ComputePenaltyCitySingleWord(parameterSet, inputAddress, featureAddress, fullWeight);
+                //                    }
+
+                //                    // if the full penalty has been applied by comparing the input city name against the refernce city name, force it to compare against the mcd, county sub, and county
+                //                    if (penalty == fullWeight)
+                //                    {
+                //                        penalty = ComputePenaltyCitySingleWord(parameterSet, inputAddress, featureAddress, fullWeight, false);
+                //                    }
+
+                //                }
+                //                else
+                //                {
+                //                    penalty = ComputePenaltyCitySingleWord(parameterSet, inputAddress, featureAddress, fullWeight);
+                //                }
+                //            }
+                //        }
+                //        else
+                //        {
+                //            // aatribute relaxation is allowed take half the weight for an ommission error, otherwise subtract the whole weight
+                //            if (parameterSet.ShouldUseRelaxation && parameterSet.RelaxableAttributes.Contains(AddressComponents.City))
+                //            {
+                //                penalty = (fullWeight / 2);
+                //            }
+                //            else
+                //            {
+                //                penalty = fullWeight;
+                //            }
+                //        }
+                //        if (!String.IsNullOrEmpty(featureAddress.CityAlternate))
+                //        {
+                //            if (String.Compare(featCityMod, featureAddress.CityAlternate, true) != 0)
+                //            {
+                //                if (String.Compare(inCityMod, featureAddress.CityAlternate, true) != 0)
+                //                {
+                //                    if (StateUtils.isState(inCityMod) || StateUtils.isState(featureAddress.CityAlternate)) // if the city is a state name 'NY, NY' compare both the expanded versions
+                //                    {
+                //                        alternatePenalty = ComputePenaltyCityStateWord(parameterSet, inCityMod, featureAddress.CityAlternate, fullWeight);
+                //                    }
+                //                    else if (featureAddress.CityAlternate.IndexOf(' ') > 0 || featureAddress.CityAlternate.IndexOf('-') > 0) // if this is a multi-word city try each word and take the best score
+                //                    {
+                //                        alternatePenalty = ComputePenaltyCityAlternateMultiWord(parameterSet, inCityMod, featureAddress.CityAlternate, fullWeight);
+                //                    }
+                //                    else
+                //                    {
+                //                        alternatePenalty = ComputePenaltyCitySingleWord(parameterSet, inCityMod, featureAddress.CityAlternate, fullWeight);
+                //                    }
+                //                }
+                //                else
+                //                {
+                //                    alternatePenalty = 0;
+                //                }
+                //            }
+                //        }
+
+                //    }
+                // }                    
                 //PAYTON:ALIASTABLE  
                 //TASK:X7-T1 Added variable to allow for not using alias table (10/9/18)
                 if (penalty > 0 && parameterSet.ShouldUseAliasTable) //If there is a penalty, check to see if the input city is a valid alias
@@ -1766,7 +1885,7 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
 
             return ret;
         }
-        //BUG:ZI147 Payton- Added code to account for periods in names such as St. Paul. Eventually we need to account for this in the address normalization
+        //BUG:X7-74 Payton- Added code to account for periods in names such as St. Paul. Eventually we need to account for this in the address normalization
         //public double ComputePenaltyCityMultiWord(ParameterSet parameterSet, StreetAddress inputAddress, StreetAddress featureAddress, double fullWeight)
         //{
         //    double ret = 0;
@@ -1876,96 +1995,158 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
         {
             double ret = 0;
             string inCity = inputAddress.City.Replace(".", string.Empty); 
-            string featCity = featureAddress.City.Replace(".", string.Empty); 
-            try
+            string featCity = featureAddress.City.Replace(".", string.Empty);
+            string[] parts = inCity.Split(' ');
+            string[] inParts = inCity.Split(' ');
+            string[] featParts = featCity.Split(' ');
+            string[] qualifiers = { "OLDE", "OLD", "OLE", "OL", "TOWNSHIP", "TWNSHIP", "BOROUGH", "TWP", "TOWN", "TOWNE", "CITY", "BORO", "TWN", "TWNE" };
+            StringBuilder sbin = new StringBuilder();
+            StringBuilder sbfeat = new StringBuilder();
+            int partsCount = inParts.Length;            
+            foreach (var part in inParts)
             {
-
-                // if there is an alternate name inside of the name "San Boneventura (Ventura)", run them both and pick the one that is less penalty
-                if (featCity.IndexOf('(') > 0 && featCity.IndexOf(')') > 0)
+                bool add = true;
+                foreach (var qualifier in qualifiers)
                 {
-
-                    int parenStart = featCity.IndexOf('(');
-                    int parenEnd = featCity.IndexOf(')');
-                    int parenLength = parenEnd - parenStart;
-
-                    string cityPart1 = featCity.Substring(0, parenStart);
-
-                    if (parenEnd != featCity.Length)
+                    if (part.ToUpper() == qualifier)
                     {
-                        cityPart1 += featCity.Substring(parenEnd + 1);
+                        add = false;
                     }
-
-                    string cityPart2 = featCity.Substring(parenStart + 1, parenLength - 1);
-
-                    StreetAddress cityPart1Address = new StreetAddress();
-                    cityPart1Address.City = cityPart1;
-
-                    StreetAddress cityPart2Address = new StreetAddress();
-                    cityPart2Address.City = cityPart2;
-
-                    double penalty1 = ComputePenaltyCityMultiWord(parameterSet, inputAddress, cityPart1Address, fullWeight);
-                    double penalty2 = ComputePenaltyCityMultiWord(parameterSet, inputAddress, cityPart2Address, fullWeight);
-
-                    if (penalty1 < penalty2)
+                }
+                if (add)
+                {
+                    if (partsCount > 1)
                     {
-                        ret = penalty1;
+                        sbin.Append(part + " ");
                     }
                     else
                     {
-                        ret = penalty2;
+                        sbin.Append(part);
                     }
 
-                }
-                else
+                }                
+                partsCount = partsCount - 1;
+            }
+            partsCount = featParts.Length;
+            foreach (var part in featParts)
+            {
+                bool add = true;
+                foreach (var qualifier in qualifiers)
                 {
-
-                    string[] cityParts = null;
-                    if (featCity.IndexOf(' ') > 0)
+                    if (part.ToUpper() == qualifier)
                     {
-                        cityParts = featCity.Split(' ');
+                        add = false;
                     }
-
-                    if (featCity.IndexOf('-') > 0)
+                }
+                if (add)
+                {
+                    if(partsCount>1)
                     {
-                        cityParts = featCity.Split('-');
+                        sbfeat.Append(part + " ");
                     }
-
-                    double bestPenalty = fullWeight;
-
-                    bool hasExactMatch = false;
-
-                    int numberOfWrongWords = 0;
-                    foreach (string cityPart in cityParts)
+                    else
                     {
-                        StreetAddress cityAddress = new StreetAddress();
-                        cityAddress.City = cityPart;
+                        sbfeat.Append(part);
+                    }                    
+                    
+                }
+                partsCount = partsCount - 1;
+            }
 
-                        double currentPenalty = ComputePenaltyCitySingleWord(parameterSet, inputAddress, cityAddress, fullWeight);
-                        if (currentPenalty != 0)
+            string inCityMod = sbin.ToString().TrimEnd();
+            string featCityMod = sbfeat.ToString().TrimEnd();
+            try
+            {
+                //BUG:T7-47 Since updating qualifiers - test full cityname once again to ensure it still does not match
+                if (String.Compare(inCityMod, featCityMod, true) != 0)
+                {
+                    // if there is an alternate name inside of the name "San Boneventura (Ventura)", run them both and pick the one that is less penalty
+                    if (featCityMod.IndexOf('(') > 0 && featCityMod.IndexOf(')') > 0)
+                    {
+
+                        int parenStart = featCityMod.IndexOf('(');
+                        int parenEnd = featCityMod.IndexOf(')');
+                        int parenLength = parenEnd - parenStart;
+
+                        string cityPart1 = featCityMod.Substring(0, parenStart);
+
+                        if (parenEnd != featCityMod.Length)
                         {
-                            numberOfWrongWords++;
+                            cityPart1 += featCityMod.Substring(parenEnd + 1);
                         }
 
-                        if (currentPenalty < bestPenalty)
+                        string cityPart2 = featCityMod.Substring(parenStart + 1, parenLength - 1);
+
+                        StreetAddress cityPart1Address = new StreetAddress();
+                        cityPart1Address.City = cityPart1;
+
+                        StreetAddress cityPart2Address = new StreetAddress();
+                        cityPart2Address.City = cityPart2;
+
+                        double penalty1 = ComputePenaltyCityMultiWord(parameterSet, inputAddress, cityPart1Address, fullWeight);
+                        double penalty2 = ComputePenaltyCityMultiWord(parameterSet, inputAddress, cityPart2Address, fullWeight);
+
+                        if (penalty1 < penalty2)
                         {
-                            bestPenalty = currentPenalty;
-                            if (bestPenalty == 0)
+                            ret = penalty1;
+                        }
+                        else
+                        {
+                            ret = penalty2;
+                        }
+
+                    }
+                    else
+                    {
+
+                        string[] cityParts = null;
+                        if (featCityMod.IndexOf(' ') > 0)
+                        {
+                            cityParts = featCityMod.Split(' ');
+                        }
+
+                        if (featCityMod.IndexOf('-') > 0)
+                        {
+                            cityParts = featCityMod.Split('-');
+                        }
+
+                        double bestPenalty = fullWeight;
+
+                        bool hasExactMatch = false;
+
+                        int numberOfWrongWords = 0;
+                        foreach (string cityPart in cityParts)
+                        {
+                            StreetAddress cityAddress = new StreetAddress();
+                            cityAddress.City = cityPart;
+
+                            double currentPenalty = ComputePenaltyCitySingleWord(parameterSet, inputAddress, cityAddress, fullWeight);
+                            if (currentPenalty != 0)
                             {
-                                hasExactMatch = true;
-                                break;
+                                numberOfWrongWords++;
+                            }
+
+                            if (currentPenalty < bestPenalty)
+                            {
+                                bestPenalty = currentPenalty;
+                                if (bestPenalty == 0)
+                                {
+                                    hasExactMatch = true;
+                                    break;
+                                }
                             }
                         }
-                    }
 
-                    ret = bestPenalty;
+                        ret = bestPenalty;
 
 
-                    // if there was an exact match in there somewhere, take of 10% for each of the wrong words
-                    if (hasExactMatch)
-                    {
-                        if (numberOfWrongWords > 0)
+                        // if there was an exact match in there somewhere, take of 10% for each of the wrong words
+                        if (hasExactMatch)
                         {
-                            ret += (.1 * Convert.ToDouble(numberOfWrongWords)) * fullWeight;
+                            if (numberOfWrongWords > 0)
+                            {
+                                ret += (.1 * Convert.ToDouble(numberOfWrongWords)) * fullWeight;
+                            }
                         }
                     }
                 }
