@@ -1631,7 +1631,56 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
             {
                 if (String.Compare(inCity, featCity, true) != 0)
                 {
-                    if (!CityUtils.isValidAlias(inCity, featCity, inputAddress.State))
+                    if (parameterSet.ShouldUseAliasTable)
+                    {
+                        if (!CityUtils.isValidAlias(inCity, featCity, inputAddress.State))
+                        {
+                            if (!String.IsNullOrEmpty(inCity))
+                            {
+
+                                if (!String.IsNullOrEmpty(featCity))
+                                {
+                                    if (StateUtils.isState(inCity) || StateUtils.isState(featCity)) // if the city is a state name 'NY, NY' compare both the expanded versions
+                                    {
+                                        penalty = ComputePenaltyCityStateWord(parameterSet, inCity, featCity, fullWeight);
+                                    }
+                                    else if (featCity.IndexOf(' ') > 0 || featCity.IndexOf('-') > 0) // if this is a multi-word city try each word and take the best score
+                                    {
+                                        penalty = ComputePenaltyCityMultiWord(parameterSet, inputAddress, featureAddress, fullWeight);
+                                    }
+                                    else
+                                    {
+                                        penalty = ComputePenaltyCitySingleWord(parameterSet, inputAddress, featureAddress, fullWeight);
+                                    }
+
+                                    // if the full penalty has been applied by comparing the input city name against the refernce city name, force it to compare against the mcd, county sub, and county
+                                    if (penalty == fullWeight)
+                                    {
+                                        penalty = ComputePenaltyCitySingleWord(parameterSet, inputAddress, featureAddress, fullWeight, false);
+                                    }
+
+                                }
+                                else
+                                {
+                                    penalty = ComputePenaltyCitySingleWord(parameterSet, inputAddress, featureAddress, fullWeight);
+                                }
+                            }
+                            // aatribute relaxation is allowed take half the weight for an ommission error, otherwise subtract the whole weight
+                            if (parameterSet.ShouldUseRelaxation && parameterSet.RelaxableAttributes.Contains(AddressComponents.City))
+                            {
+                                penalty = (fullWeight / 2);
+                            }
+                            else
+                            {
+                                penalty = fullWeight;
+                            }
+                        }
+                        else
+                        {
+                            //do nothing - since it's a valid alias no penalty is assessed
+                        }
+                    }
+                    else //if not using alias table then don't need to do alias check
                     {
                         if (!String.IsNullOrEmpty(inCity))
                         {
@@ -1662,18 +1711,6 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
                             {
                                 penalty = ComputePenaltyCitySingleWord(parameterSet, inputAddress, featureAddress, fullWeight);
                             }
-                        }
-                    }
-                    else
-                    {
-                        // aatribute relaxation is allowed take half the weight for an ommission error, otherwise subtract the whole weight
-                        if (parameterSet.ShouldUseRelaxation && parameterSet.RelaxableAttributes.Contains(AddressComponents.City))
-                        {
-                            penalty = (fullWeight / 2);
-                        }
-                        else
-                        {
-                            penalty = fullWeight;
                         }
                     }
                     if (!String.IsNullOrEmpty(featureAddress.CityAlternate))
@@ -1823,14 +1860,15 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
                 // }                    
                 //PAYTON:ALIASTABLE  
                 //TASK:X7-T1 Added variable to allow for not using alias table (10/9/18)
-                if (penalty > 0 && parameterSet.ShouldUseAliasTable) //If there is a penalty, check to see if the input city is a valid alias
-                {
-                    bool isValidAlias = CityUtils.isValidAlias(inCity , featCity, inputAddress.State);
-                    if (isValidAlias)
-                    {
-                        penalty = 0;
-                    }
-                }
+                //Doing this in the actual penalty code above now
+                //if (penalty > 0 && parameterSet.ShouldUseAliasTable) //If there is a penalty, check to see if the input city is a valid alias
+                //{
+                //    bool isValidAlias = CityUtils.isValidAlias(inCity , featCity, inputAddress.State);
+                //    if (isValidAlias)
+                //    {
+                //        penalty = 0;
+                //    }
+                //}
             }
             catch (Exception e)
             {
@@ -2109,7 +2147,10 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
                         {
                             cityParts = featCityMod.Split('-');
                         }
-
+                        else
+                        {
+                            cityParts = new string[]{featCityMod};
+                        }
                         double bestPenalty = fullWeight;
 
                         bool hasExactMatch = false;

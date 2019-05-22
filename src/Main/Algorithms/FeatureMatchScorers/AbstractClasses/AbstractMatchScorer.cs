@@ -103,6 +103,8 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
                             case "Census2010ZCTAs":
                                 matchedFeature.MatchScore += -40;
                                 break;
+                            case "NavteqAddressPoints2017":
+                                break;
                             case "NavteqAddressPoints2016":
                                 break;
                             case "NavteqAddressPoints2014":
