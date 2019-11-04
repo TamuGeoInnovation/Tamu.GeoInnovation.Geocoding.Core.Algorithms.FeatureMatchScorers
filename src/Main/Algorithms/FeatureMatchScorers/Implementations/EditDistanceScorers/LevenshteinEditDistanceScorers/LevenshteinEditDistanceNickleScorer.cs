@@ -74,7 +74,7 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Imple
                         ret.Exception = numberPenalty.Exception;
                         ret.Error = numberPenalty.Error;
                     }
-                    
+
 
 
                     MatchScorePenaltyResult preDirectionalPenalty = ComputePenaltyPreDirectional(parameterSet, inputAddress, featureAddress, AttributeWeightingScheme.ProportionalWeightPreDirectional);
@@ -391,7 +391,7 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Imple
                         addressNumberTypeUsed = AddressNumberType.Number;
                     }
                 }
-                
+
                 if (addressRange != null)
                 {
                     ret = ComputePenaltyNumberRange(parameterSet, inputAddress, addressRange, addressNumberTypeUsed, referenceSourceQueryResult, nickleStreet);
@@ -431,7 +431,7 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Imple
 
                 bool isWithinRange = false;
 
-                int inputAddressNumber =0;
+                int inputAddressNumber = 0;
 
                 if (addressNumberType == AddressNumberType.Number)
                 {

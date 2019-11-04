@@ -185,7 +185,7 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Imple
                     //TASK:X7-T1 Added variable to parameterSet allow for not using alias table (10/9/18)
                     //BUGZ7-74 city penalty of 1 results in 0 matchscore. 
                     //cityPenalty = ComputePenaltyCity(parameterSet, inputAddress, featureAddress, AttributeWeightingScheme.ProportionalWeightCity);
-                    cityPenalty = ComputePenaltyCity(parameterSet, inputAddress, featureAddress, .4);                    
+                    cityPenalty = ComputePenaltyCity(parameterSet, inputAddress, featureAddress, .4);
                     cityPenalty.AddressComponent = AddressComponents.City;
 
                     if (cityPenalty.ExceptionOccurred)
@@ -196,7 +196,7 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Imple
                     }
                 }
 
-               
+
 
                 if (zipPenalty != null && cityPenalty != null)
                 {
@@ -281,7 +281,7 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Imple
                 {
                     PennyAddressPoint pennyAddressPoint = (PennyAddressPoint)referenceFeature.StreetAddressableGeographicFeature;
 
-                    if ((String.Compare(inputAddress.Number, pennyAddressPoint.Number, true) == 0) && ((String.Compare(inputAddress.NumberFractional,pennyAddressPoint.NumberFractional,true)==0)) || (inputAddress.NumberFractional=="" && pennyAddressPoint.NumberFractional == null))
+                    if ((String.Compare(inputAddress.Number, pennyAddressPoint.Number, true) == 0) && ((String.Compare(inputAddress.NumberFractional, pennyAddressPoint.NumberFractional, true) == 0)) || (inputAddress.NumberFractional == "" && pennyAddressPoint.NumberFractional == null))
                     {
                         ret.OverallAddressDistance = 0;
                         ret.OverallParityResultType = FeatureMatchAddressParityResultType.CorrectParity;
@@ -300,13 +300,13 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Imple
                         ret.OverallParityResultType = FeatureMatchAddressParityResultType.CorrectParity;
                     }
                     //PAYTON:NY-ADDRESS SCORING 7-16-17
-                    else if (String.Compare(inputAddress.Number+inputAddress.NumberFractional, pennyAddressPoint.Number, true) == 0 && (pennyAddressPoint.State == "NY" || pennyAddressPoint.State == "HI"))
+                    else if (String.Compare(inputAddress.Number + inputAddress.NumberFractional, pennyAddressPoint.Number, true) == 0 && (pennyAddressPoint.State == "NY" || pennyAddressPoint.State == "HI"))
                     {
                         ret.OverallAddressDistance = 0;
                         penalty = AttributeWeightingScheme.ProportionalWeightNumberParity;
                         ret.OverallParityResultType = FeatureMatchAddressParityResultType.CorrectParity;
                     }
-                    else if (String.Compare(inputAddress.Number+inputAddress.NumberFractional, pennyAddressPoint.Number + '0' + pennyAddressPoint.NumberFractional, true) == 0 && (pennyAddressPoint.State == "NY" || pennyAddressPoint.State == "HI"))
+                    else if (String.Compare(inputAddress.Number + inputAddress.NumberFractional, pennyAddressPoint.Number + '0' + pennyAddressPoint.NumberFractional, true) == 0 && (pennyAddressPoint.State == "NY" || pennyAddressPoint.State == "HI"))
                     {
                         ret.OverallAddressDistance = 0;
                         penalty = AttributeWeightingScheme.ProportionalWeightNumberParity * 2;

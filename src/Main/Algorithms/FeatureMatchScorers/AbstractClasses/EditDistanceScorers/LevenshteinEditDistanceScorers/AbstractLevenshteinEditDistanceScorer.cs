@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Text;
 using USC.GISResearchLab.AddressProcessing.Core.Standardizing.StandardizedAddresses.Lines.DeliveryAddressLines.Directionals;
-using USC.GISResearchLab.AddressProcessing.Core.Standardizing.StandardizedAddresses.Lines.DeliveryAddressLines.NamePreQualifiers;
 using USC.GISResearchLab.AddressProcessing.Core.Standardizing.StandardizedAddresses.Lines.DeliveryAddressLines.PostQualifiers;
 using USC.GISResearchLab.AddressProcessing.Core.Standardizing.StandardizedAddresses.Lines.DeliveryAddressLines.PreArticles;
 using USC.GISResearchLab.AddressProcessing.Core.Standardizing.StandardizedAddresses.Lines.DeliveryAddressLines.PreQualifiers;
@@ -838,7 +837,7 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
                 if (String.Compare(inputAddress.StreetName, featureAddress.StreetName, true) != 0)
                 {
                     // if both of them are numbers, compare the numeric values and return full weight if not equivalent
-                    if ((inputAddress.NameIsNumericAbbreviation || inputAddress.NameIsNumberWords || inputAddress.NameIsNumber ) && (featureAddress.NameIsNumericAbbreviation || featureAddress.NameIsNumberWords || featureAddress.NameIsNumber))
+                    if ((inputAddress.NameIsNumericAbbreviation || inputAddress.NameIsNumberWords || inputAddress.NameIsNumber) && (featureAddress.NameIsNumericAbbreviation || featureAddress.NameIsNumberWords || featureAddress.NameIsNumber))
                     {
                         string inputAddressNumberString = "";
                         string featureAddressNumberString = "";
@@ -1446,7 +1445,7 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
                 }
 
                 double proportion = (errorIndex / 5);
-                double normalized  = Convert.ToDouble(1.0) - proportion ;
+                double normalized = Convert.ToDouble(1.0) - proportion;
                 double proportionalWeight = fullWeight * normalized;
 
                 ret = proportionalWeight;
@@ -1623,10 +1622,10 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
 
             double penalty = 0;
             double alternatePenalty = fullWeight;
-            string inCity = inputAddress.City.Replace(".", string.Empty); 
+            string inCity = inputAddress.City.Replace(".", string.Empty);
             string featCity = featureAddress.City.Replace(".", string.Empty);
-            string[] parts = inCity.Split(' ');            
-            
+            string[] parts = inCity.Split(' ');
+
             try
             {
                 if (String.Compare(inCity, featCity, true) != 0)
@@ -2032,7 +2031,7 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
         public double ComputePenaltyCityMultiWord(ParameterSet parameterSet, StreetAddress inputAddress, StreetAddress featureAddress, double fullWeight)
         {
             double ret = 0;
-            string inCity = inputAddress.City.Replace(".", string.Empty); 
+            string inCity = inputAddress.City.Replace(".", string.Empty);
             string featCity = featureAddress.City.Replace(".", string.Empty);
             string[] parts = inCity.Split(' ');
             string[] inParts = inCity.Split(' ');
@@ -2040,7 +2039,7 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
             string[] qualifiers = { "OLDE", "OLD", "OLE", "OL", "TOWNSHIP", "TWNSHIP", "BOROUGH", "TWP", "TOWN", "TOWNE", "CITY", "BORO", "TWN", "TWNE" };
             StringBuilder sbin = new StringBuilder();
             StringBuilder sbfeat = new StringBuilder();
-            int partsCount = inParts.Length;            
+            int partsCount = inParts.Length;
             foreach (var part in inParts)
             {
                 bool add = true;
@@ -2062,7 +2061,7 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
                         sbin.Append(part);
                     }
 
-                }                
+                }
                 partsCount = partsCount - 1;
             }
             partsCount = featParts.Length;
@@ -2078,15 +2077,15 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
                 }
                 if (add)
                 {
-                    if(partsCount>1)
+                    if (partsCount > 1)
                     {
                         sbfeat.Append(part + " ");
                     }
                     else
                     {
                         sbfeat.Append(part);
-                    }                    
-                    
+                    }
+
                 }
                 partsCount = partsCount - 1;
             }
@@ -2149,7 +2148,7 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
                         }
                         else
                         {
-                            cityParts = new string[]{featCityMod};
+                            cityParts = new string[] { featCityMod };
                         }
                         double bestPenalty = fullWeight;
 
@@ -2221,7 +2220,7 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
 
                 foreach (string cityPart in cityParts)
                 {
-                   
+
                     double currentPenalty = ComputePenaltyCitySingleWord(parameterSet, inputCity, cityPart, fullWeight);
                     if (currentPenalty < bestPenalty)
                     {
@@ -2247,7 +2246,7 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
         public double ComputePenaltyCitySingleWord(ParameterSet parameterSet, StreetAddress inputAddress, StreetAddress featureAddress, double fullWeight)
         {
             return ComputePenaltyCitySingleWord(parameterSet, inputAddress, featureAddress, fullWeight, true);
-        
+
         }
 
         public double ComputePenaltyCitySingleWord(ParameterSet parameterSet, StreetAddress inputAddress, StreetAddress featureAddress, double fullWeight, bool checkReferenceCity)
@@ -2567,5 +2566,5 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
         //        county = 0;
         //    }
         //}
-        }
+    }
 }

@@ -10,7 +10,7 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Imple
 {
     public class LevenshteinEditDistanceDimeScorer : AbstractLevenshteinEditDistanceScorer
     {
-        
+
         public LevenshteinEditDistanceDimeScorer()
         {
         }

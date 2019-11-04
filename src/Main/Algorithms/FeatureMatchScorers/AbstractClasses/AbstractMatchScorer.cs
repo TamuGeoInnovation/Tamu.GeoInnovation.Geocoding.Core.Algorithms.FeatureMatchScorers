@@ -1,25 +1,24 @@
-﻿using USC.GISResearchLab.Common.Addresses;
+﻿using System;
+using USC.GISResearchLab.Common.Addresses;
+using USC.GISResearchLab.Common.Core.Geocoders.FeatureMatching;
 using USC.GISResearchLab.Common.Core.Maths.NumericStrings;
+using USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchingMethods;
 using USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Interfaces;
 using USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.MatchScoreResults;
 using USC.GISResearchLab.Geocoding.Core.Queries.Parameters;
 using USC.GISResearchLab.Geocoding.Core.ReferenceDatasets.ReferenceFeatures;
 using USC.GISResearchLab.Geocoding.Core.ReferenceDatasets.ReferenceSourceQueries;
 
-using System;
-using USC.GISResearchLab.Common.Core.Geocoders.FeatureMatching;
-using USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchingMethods;
-
 
 namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.AbstractClasses
 {
-    public abstract class AbstractMatchScorer: IMatchScorer
+    public abstract class AbstractMatchScorer : IMatchScorer
     {
         #region Properties
 
         public NumericStringManager NumericStringManager { get; set; }
         public AttributeWeightingScheme AttributeWeightingScheme { get; set; }
-        
+
         #endregion
 
         public AbstractMatchScorer()
@@ -52,9 +51,9 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
 
                     try
                     {
-                        matchedFeature.MatchScoreStartTimer = DateTime.Now;                                
+                        matchedFeature.MatchScoreStartTimer = DateTime.Now;
                         //TASK:X7-T1 Added variable to parameterSet to allow for not using alias table (10/9/18)
-                        matchedFeature.MatchScoreResult = scorer.GetMatchScore(parameterSet, parameterSet.StreetAddress, matchedFeature.MatchedFeatureAddress, matchedFeature.MatchedReferenceFeature, referenceSourceQueryResult, matchScorer);                        
+                        matchedFeature.MatchScoreResult = scorer.GetMatchScore(parameterSet, parameterSet.StreetAddress, matchedFeature.MatchedFeatureAddress, matchedFeature.MatchedReferenceFeature, referenceSourceQueryResult, matchScorer);
                         matchedFeature.MatchScore = matchedFeature.MatchScoreResult.MatchScore;
                         //PAYTON:MATCHSCORE if less than streetlevel match - add matchscore penalty accordingly
                         switch (matchedFeature.ReferenceSourceType.ToString())
@@ -74,7 +73,7 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
                             case "Census2000States":
                                 matchedFeature.MatchScore += -95;
                                 break;
-                            case "Census2008TigerLines":                                
+                            case "Census2008TigerLines":
                                 break;
                             case "Census2008ZCTAs":
                                 matchedFeature.MatchScore += -40;
@@ -123,10 +122,10 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
                             case "USPSTigerZipPlus4":
                                 matchedFeature.MatchScore += -40;
                                 break;
-                            default:                                
+                            default:
                                 break;
                                 //throw new Exception("Unexpected or unimplemented ReferenceSourceType: " + config.ReferenceSourceType);
-                        }                        
+                        }
                         matchedFeature.MatchScoreEndTimer = DateTime.Now;
 
                         matchedFeature.MatchTypeStartTimer = DateTime.Now;
