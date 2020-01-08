@@ -2,7 +2,7 @@
 using System.Reflection;
 using USC.GISResearchLab.Common.Addresses;
 using USC.GISResearchLab.Common.GeographicFeatures.Streets;
-using USC.GISResearchLabComputePenaltyCity.Common.Utils.Strings;
+using USC.GISResearchLab.Common.Utils.Strings;
 using USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.AbstractClasses.EditDistanceScorers.LevenshteinEditDistanceScorers;
 using USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.MatchScoreResults;
 using USC.GISResearchLab.Geocoding.Core.Queries.Parameters;
