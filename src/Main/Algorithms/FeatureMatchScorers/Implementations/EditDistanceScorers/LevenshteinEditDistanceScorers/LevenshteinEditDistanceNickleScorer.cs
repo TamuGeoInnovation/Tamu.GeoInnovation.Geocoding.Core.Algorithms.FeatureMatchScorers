@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Reflection;
 using USC.GISResearchLab.Common.Addresses;
 using USC.GISResearchLab.Common.GeographicFeatures.Streets;
-using USC.GISResearchLab.Common.Utils.Strings;
+using USC.GISResearchLabComputePenaltyCity.Common.Utils.Strings;
 using USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.AbstractClasses.EditDistanceScorers.LevenshteinEditDistanceScorers;
 using USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.MatchScoreResults;
 using USC.GISResearchLab.Geocoding.Core.Queries.Parameters;
@@ -24,6 +25,7 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Imple
 
         public override MatchScoreResult GetMatchScore(ParameterSet parameterSet, StreetAddress inputAddress, StreetAddress featureAddress, IReferenceFeature referenceFeature, ReferenceSourceQueryResult referenceSourceQueryResult)
         {
+            Serilog.Log.Verbose(this.GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " - entered");
 
             MatchScoreResult ret = new MatchScoreResult(AttributeWeightingScheme);
             ret.StartTimer();
@@ -280,6 +282,7 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Imple
                 ret.ExceptionOccurred = true;
                 ret.Error = "Exception in GetMatchScore: " + e.Message;
                 ret.Exception = e;
+                Serilog.Log.Error(e, this.GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " - errored out");
             }
 
             ret.EndTimer();
@@ -289,6 +292,8 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Imple
 
         public MatchScoreNumberPenaltyResult ComputePenaltyNumber(ParameterSet parameterSet, StreetAddress inputAddress, IReferenceFeature referenceFeature, ReferenceSourceQueryResult referenceSourceQueryResult, AttributeWeightingScheme attrbuteWeightingScheme)
         {
+            Serilog.Log.Verbose(this.GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " - entered");
+
             MatchScoreNumberPenaltyResult ret = new MatchScoreNumberPenaltyResult();
             ret.StartTimer();
 
@@ -330,6 +335,7 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Imple
                 ret.ExceptionOccurred = true;
                 ret.Error = "Exception in ComputePenaltyNumber: " + e.Message;
                 ret.Exception = e;
+                Serilog.Log.Error(e, this.GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " - errored out");
             }
 
             ret.EndTimer(penalty);
@@ -341,6 +347,7 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Imple
         // given two address ranges for a street segment (address range and house number), figure out which to use and caluclate the within/outside penalty
         public MatchScoreNumberPenaltyResult ComputePenaltyNumberForTwoRanges(ParameterSet parameterSet, StreetAddress inputAddress, IReferenceFeature referenceFeature, ReferenceSourceQueryResult referenceSourceQueryResult, AttributeWeightingScheme attrbuteWeightingScheme, AddressRange addressRangeMajor, AddressRange addressRangeMinor, NickleStreet nickleStreet)
         {
+            Serilog.Log.Verbose(this.GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " - entered");
 
             // there are three types of cases for each address range of the reference feature (address range and house number)
             // (1) range major is a single number and the range minor has the actual variation 23-1 Main - 23-99 Main
@@ -411,6 +418,7 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Imple
                 ret.ExceptionOccurred = true;
                 ret.Error = "Exception in ComputePenaltyNumberForTwoRanges: " + e.Message;
                 ret.Exception = e;
+                Serilog.Log.Error(e, this.GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " - errored out");
             }
 
             ret.EndTimer(penalty);
@@ -420,6 +428,7 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Imple
 
         public MatchScoreNumberPenaltyResult ComputePenaltyNumberRange(ParameterSet parameterSet, StreetAddress inputAddress, AddressRange segmentRange, AddressNumberType addressNumberType, ReferenceSourceQueryResult referenceSourceQueryResult, NickleStreet nickleStreet)
         {
+            Serilog.Log.Verbose(this.GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " - entered");
 
             MatchScoreNumberPenaltyResult ret = new MatchScoreNumberPenaltyResult();
             ret.StartTimer();
@@ -633,6 +642,7 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Imple
                         ret.ExceptionOccurred = true;
                         ret.Error = "Exception in ComputePenaltyNumberRangeSize: " + ex2.Message;
                         ret.Exception = ex2;
+                        Serilog.Log.Error(ex2, this.GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " - errored out");
                     }
                 }
 
@@ -650,6 +660,7 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Imple
                 ret.ExceptionOccurred = true;
                 ret.Error = "Exception in ComputePenaltyNumberRange: " + e.Message;
                 ret.Exception = e;
+                Serilog.Log.Error(e, this.GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " - errored out");
             }
 
             ret.EndTimer(penalty);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Reflection;
 using System.Text;
 using USC.GISResearchLab.AddressProcessing.Core.Standardizing.StandardizedAddresses.Lines.DeliveryAddressLines.Directionals;
 using USC.GISResearchLab.AddressProcessing.Core.Standardizing.StandardizedAddresses.Lines.DeliveryAddressLines.PostQualifiers;
@@ -257,6 +258,7 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
                 ret.ExceptionOccurred = true;
                 ret.Error = "Exception in ComputePenaltyPreDirectionional: " + e.Message;
                 ret.Exception = e;
+                Serilog.Log.Error(e, this.GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " - errored out");
             }
 
             ret.EndTimer(penalty);
@@ -488,6 +490,7 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
                 ret.ExceptionOccurred = true;
                 ret.Error = "Exception in ComputePenaltyPostDirectiononal: " + e.Message;
                 ret.Exception = e;
+                Serilog.Log.Error(e, this.GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " - errored out");
             }
 
             ret.EndTimer(penalty);
@@ -554,6 +557,7 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
                 ret.ExceptionOccurred = true;
                 ret.Error = "Exception in ComputePenaltyPreArticle: " + e.Message;
                 ret.Exception = e;
+                Serilog.Log.Error(e, this.GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " - errored out");
             }
 
             ret.EndTimer(penalty);
@@ -620,6 +624,7 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
                 ret.ExceptionOccurred = true;
                 ret.Error = "Exception in ComputePenaltyPostArticle: " + e.Message;
                 ret.Exception = e;
+                Serilog.Log.Error(e, this.GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " - errored out");
             }
 
             ret.EndTimer(penalty);
@@ -686,6 +691,7 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
                 ret.ExceptionOccurred = true;
                 ret.Error = "Exception in ComputePenaltyPreType: " + e.Message;
                 ret.Exception = e;
+                Serilog.Log.Error(e, this.GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " - errored out");
             }
 
             ret.EndTimer(penalty);
@@ -752,6 +758,7 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
                 ret.ExceptionOccurred = true;
                 ret.Error = "Exception in ComputePenaltyPreQualifier: " + e.Message;
                 ret.Exception = e;
+                Serilog.Log.Error(e, this.GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " - errored out");
             }
 
             ret.EndTimer(penalty);
@@ -818,6 +825,7 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
                 ret.ExceptionOccurred = true;
                 ret.Error = "Exception in ComputePenaltyPostQualifier: " + e.Message;
                 ret.Exception = e;
+                Serilog.Log.Error(e, this.GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " - errored out");
             }
 
             ret.EndTimer(penalty);
@@ -1207,6 +1215,7 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
                 ret.ExceptionOccurred = true;
                 ret.Error = "Exception in ComputePenaltyName: " + e.Message;
                 ret.Exception = e;
+                Serilog.Log.Error(e, this.GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " - errored out");
             }
 
             ret.EndTimer(penalty);
@@ -1265,6 +1274,7 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
                 ret.ExceptionOccurred = true;
                 ret.Error = "Exception in ComputePenaltySuffix: " + e.Message;
                 ret.Exception = e;
+                Serilog.Log.Error(e, this.GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " - errored out");
             }
 
             ret.EndTimer(penalty);
@@ -1319,6 +1329,7 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
                 ret.ExceptionOccurred = true;
                 ret.Error = "Exception in ComputePenaltyZip: " + e.Message;
                 ret.Exception = e;
+                Serilog.Log.Error(e, this.GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " - errored out");
             }
 
             if (alternatePenalty < penalty)
@@ -1410,6 +1421,7 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
                 ret.ExceptionOccurred = true;
                 ret.Error = "Exception in ComputePenaltyZip: " + e.Message;
                 ret.Exception = e;
+                Serilog.Log.Error(e, this.GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " - errored out");
             }
 
             if (alternatePenalty < penalty)
@@ -1453,6 +1465,7 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
             }
             catch (Exception e)
             {
+                Serilog.Log.Error(e, this.GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " - errored out");
                 throw new Exception("Exception in ComputePenaltyZipPositionProportional: " + e.Message, e);
             }
 
@@ -1491,6 +1504,7 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
                 ret.ExceptionOccurred = true;
                 ret.Error = "Exception in ComputePenaltyState: " + e.Message;
                 ret.Exception = e;
+                Serilog.Log.Error(e, this.GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " - errored out");
             }
 
             ret.EndTimer(penalty);
@@ -1617,126 +1631,170 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
 
         public MatchScorePenaltyResult ComputePenaltyCity(ParameterSet parameterSet, StreetAddress inputAddress, StreetAddress featureAddress, double fullWeight)
         {
+            Serilog.Log.Verbose(this.GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " - entered");
+
             MatchScorePenaltyResult ret = new MatchScorePenaltyResult();
             ret.StartTimer();
 
             double penalty = 0;
             double alternatePenalty = fullWeight;
-            string inCity = inputAddress.City.Replace(".", string.Empty);
-            string featCity = featureAddress.City.Replace(".", string.Empty);
-            string[] parts = inCity.Split(' ');
+            
 
             try
             {
-                if (String.Compare(inCity, featCity, true) != 0)
+                if (inputAddress != null)
                 {
-                    if (parameterSet.ShouldUseAliasTable)
+                    if (!String.IsNullOrEmpty(inputAddress.City))
                     {
-                        if (!CityUtils.isValidAlias(inCity, featCity, inputAddress.State))
+                        if (featureAddress != null)
                         {
-                            if (!String.IsNullOrEmpty(inCity))
+                            if (!String.IsNullOrEmpty(featureAddress.City))
                             {
+                                string inCity = inputAddress.City.Replace(".", string.Empty);
+                                string featCity = featureAddress.City.Replace(".", string.Empty);
+                                string[] parts = inCity.Split(' ');
 
-                                if (!String.IsNullOrEmpty(featCity))
+                                if (String.Compare(inCity, featCity, true) != 0)
                                 {
-                                    if (StateUtils.isState(inCity) || StateUtils.isState(featCity)) // if the city is a state name 'NY, NY' compare both the expanded versions
+                                    if (parameterSet.ShouldUseAliasTable)
                                     {
-                                        penalty = ComputePenaltyCityStateWord(parameterSet, inCity, featCity, fullWeight);
-                                    }
-                                    else if (featCity.IndexOf(' ') > 0 || featCity.IndexOf('-') > 0) // if this is a multi-word city try each word and take the best score
-                                    {
-                                        penalty = ComputePenaltyCityMultiWord(parameterSet, inputAddress, featureAddress, fullWeight);
-                                    }
-                                    else
-                                    {
-                                        penalty = ComputePenaltyCitySingleWord(parameterSet, inputAddress, featureAddress, fullWeight);
-                                    }
+                                        if (!CityUtils.isValidAlias(inCity, featCity, inputAddress.State))
+                                        {
+                                            if (!String.IsNullOrEmpty(inCity))
+                                            {
 
-                                    // if the full penalty has been applied by comparing the input city name against the refernce city name, force it to compare against the mcd, county sub, and county
-                                    if (penalty == fullWeight)
-                                    {
-                                        penalty = ComputePenaltyCitySingleWord(parameterSet, inputAddress, featureAddress, fullWeight, false);
-                                    }
+                                                if (!String.IsNullOrEmpty(featCity))
+                                                {
+                                                    if (StateUtils.isState(inCity) || StateUtils.isState(featCity)) // if the city is a state name 'NY, NY' compare both the expanded versions
+                                                    {
+                                                        penalty = ComputePenaltyCityStateWord(parameterSet, inCity, featCity, fullWeight);
+                                                    }
+                                                    else if (featCity.IndexOf(' ') > 0 || featCity.IndexOf('-') > 0) // if this is a multi-word city try each word and take the best score
+                                                    {
+                                                        penalty = ComputePenaltyCityMultiWord(parameterSet, inputAddress, featureAddress, fullWeight);
+                                                    }
+                                                    else
+                                                    {
+                                                        penalty = ComputePenaltyCitySingleWord(parameterSet, inputAddress, featureAddress, fullWeight);
+                                                    }
 
+                                                    // if the full penalty has been applied by comparing the input city name against the refernce city name, force it to compare against the mcd, county sub, and county
+                                                    if (penalty == fullWeight)
+                                                    {
+                                                        penalty = ComputePenaltyCitySingleWord(parameterSet, inputAddress, featureAddress, fullWeight, false);
+                                                    }
+
+                                                }
+                                                else
+                                                {
+                                                    penalty = ComputePenaltyCitySingleWord(parameterSet, inputAddress, featureAddress, fullWeight);
+                                                }
+                                            }
+                                            // aatribute relaxation is allowed take half the weight for an ommission error, otherwise subtract the whole weight
+                                            if (parameterSet.ShouldUseRelaxation && parameterSet.RelaxableAttributes.Contains(AddressComponents.City))
+                                            {
+                                                penalty = (fullWeight / 2);
+                                            }
+                                            else
+                                            {
+                                                penalty = fullWeight;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            //do nothing - since it's a valid alias no penalty is assessed
+                                        }
+                                    }
+                                    else //if not using alias table then don't need to do alias check
+                                    {
+                                        if (!String.IsNullOrEmpty(inCity))
+                                        {
+
+                                            if (!String.IsNullOrEmpty(featCity))
+                                            {
+                                                if (StateUtils.isState(inCity) || StateUtils.isState(featCity)) // if the city is a state name 'NY, NY' compare both the expanded versions
+                                                {
+                                                    penalty = ComputePenaltyCityStateWord(parameterSet, inCity, featCity, fullWeight);
+                                                }
+                                                else if (featCity.IndexOf(' ') > 0 || featCity.IndexOf('-') > 0) // if this is a multi-word city try each word and take the best score
+                                                {
+                                                    penalty = ComputePenaltyCityMultiWord(parameterSet, inputAddress, featureAddress, fullWeight);
+                                                }
+                                                else
+                                                {
+                                                    penalty = ComputePenaltyCitySingleWord(parameterSet, inputAddress, featureAddress, fullWeight);
+                                                }
+
+                                                // if the full penalty has been applied by comparing the input city name against the refernce city name, force it to compare against the mcd, county sub, and county
+                                                if (penalty == fullWeight)
+                                                {
+                                                    penalty = ComputePenaltyCitySingleWord(parameterSet, inputAddress, featureAddress, fullWeight, false);
+                                                }
+
+                                            }
+                                            else
+                                            {
+                                                penalty = ComputePenaltyCitySingleWord(parameterSet, inputAddress, featureAddress, fullWeight);
+                                            }
+                                        }
+                                    }
+                                    if (!String.IsNullOrEmpty(featureAddress.CityAlternate))
+                                    {
+                                        if (String.Compare(featCity, featureAddress.CityAlternate, true) != 0)
+                                        {
+                                            if (String.Compare(inCity, featureAddress.CityAlternate, true) != 0)
+                                            {
+                                                if (StateUtils.isState(inCity) || StateUtils.isState(featureAddress.CityAlternate)) // if the city is a state name 'NY, NY' compare both the expanded versions
+                                                {
+                                                    alternatePenalty = ComputePenaltyCityStateWord(parameterSet, inCity, featureAddress.CityAlternate, fullWeight);
+                                                }
+                                                else if (featureAddress.CityAlternate.IndexOf(' ') > 0 || featureAddress.CityAlternate.IndexOf('-') > 0) // if this is a multi-word city try each word and take the best score
+                                                {
+                                                    alternatePenalty = ComputePenaltyCityAlternateMultiWord(parameterSet, inCity, featureAddress.CityAlternate, fullWeight);
+                                                }
+                                                else
+                                                {
+                                                    alternatePenalty = ComputePenaltyCitySingleWord(parameterSet, inCity, featureAddress.CityAlternate, fullWeight);
+                                                }
+                                            }
+                                            else
+                                            {
+                                                alternatePenalty = 0;
+                                            }
+                                        }
+                                    }
                                 }
-                                else
-                                {
-                                    penalty = ComputePenaltyCitySingleWord(parameterSet, inputAddress, featureAddress, fullWeight);
-                                }
-                            }
-                            // aatribute relaxation is allowed take half the weight for an ommission error, otherwise subtract the whole weight
-                            if (parameterSet.ShouldUseRelaxation && parameterSet.RelaxableAttributes.Contains(AddressComponents.City))
-                            {
-                                penalty = (fullWeight / 2);
                             }
                             else
                             {
-                                penalty = fullWeight;
+                                string message = MethodBase.GetCurrentMethod().DeclaringType + " " + MethodBase.GetCurrentMethod().Name + " - featureAddress.City is null";
+                                Exception e = new Exception(message);
+                                Serilog.Log.Error(e, message);
+                                throw e;
                             }
                         }
                         else
                         {
-                            //do nothing - since it's a valid alias no penalty is assessed
+                            string message = MethodBase.GetCurrentMethod().DeclaringType + " " + MethodBase.GetCurrentMethod().Name + " - featureAddress is null";
+                            Exception e = new Exception(message);
+                            Serilog.Log.Error(e, message);
+                            throw e;
                         }
                     }
-                    else //if not using alias table then don't need to do alias check
+                    else
                     {
-                        if (!String.IsNullOrEmpty(inCity))
-                        {
-
-                            if (!String.IsNullOrEmpty(featCity))
-                            {
-                                if (StateUtils.isState(inCity) || StateUtils.isState(featCity)) // if the city is a state name 'NY, NY' compare both the expanded versions
-                                {
-                                    penalty = ComputePenaltyCityStateWord(parameterSet, inCity, featCity, fullWeight);
-                                }
-                                else if (featCity.IndexOf(' ') > 0 || featCity.IndexOf('-') > 0) // if this is a multi-word city try each word and take the best score
-                                {
-                                    penalty = ComputePenaltyCityMultiWord(parameterSet, inputAddress, featureAddress, fullWeight);
-                                }
-                                else
-                                {
-                                    penalty = ComputePenaltyCitySingleWord(parameterSet, inputAddress, featureAddress, fullWeight);
-                                }
-
-                                // if the full penalty has been applied by comparing the input city name against the refernce city name, force it to compare against the mcd, county sub, and county
-                                if (penalty == fullWeight)
-                                {
-                                    penalty = ComputePenaltyCitySingleWord(parameterSet, inputAddress, featureAddress, fullWeight, false);
-                                }
-
-                            }
-                            else
-                            {
-                                penalty = ComputePenaltyCitySingleWord(parameterSet, inputAddress, featureAddress, fullWeight);
-                            }
-                        }
+                        string message = MethodBase.GetCurrentMethod().DeclaringType + " " + MethodBase.GetCurrentMethod().Name + " - inputAddress.City is null";
+                        Exception e = new Exception(message);
+                        Serilog.Log.Error(e, message);
+                        throw e;
                     }
-                    if (!String.IsNullOrEmpty(featureAddress.CityAlternate))
-                    {
-                        if (String.Compare(featCity, featureAddress.CityAlternate, true) != 0)
-                        {
-                            if (String.Compare(inCity, featureAddress.CityAlternate, true) != 0)
-                            {
-                                if (StateUtils.isState(inCity) || StateUtils.isState(featureAddress.CityAlternate)) // if the city is a state name 'NY, NY' compare both the expanded versions
-                                {
-                                    alternatePenalty = ComputePenaltyCityStateWord(parameterSet, inCity, featureAddress.CityAlternate, fullWeight);
-                                }
-                                else if (featureAddress.CityAlternate.IndexOf(' ') > 0 || featureAddress.CityAlternate.IndexOf('-') > 0) // if this is a multi-word city try each word and take the best score
-                                {
-                                    alternatePenalty = ComputePenaltyCityAlternateMultiWord(parameterSet, inCity, featureAddress.CityAlternate, fullWeight);
-                                }
-                                else
-                                {
-                                    alternatePenalty = ComputePenaltyCitySingleWord(parameterSet, inCity, featureAddress.CityAlternate, fullWeight);
-                                }
-                            }
-                            else
-                            {
-                                alternatePenalty = 0;
-                            }
-                        }
-                    }
+                }
+                else
+                {
+                    string message = MethodBase.GetCurrentMethod().DeclaringType + " " + MethodBase.GetCurrentMethod().Name + " - inputAddress is null";
+                    Exception e = new Exception(message);
+                    Serilog.Log.Error(e, message);
+                    throw e;
                 }
                 //BUG:X7-74 If no match is found but input or feature city contains pre or post qualifers, remove and try match again.
                 //else
@@ -1874,6 +1932,7 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
                 ret.ExceptionOccurred = true;
                 ret.Error = "Exception in ComputePenaltyCity: " + e.Message;
                 ret.Exception = e;
+                Serilog.Log.Error(e, this.GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " - errored out");
             }
 
             if (alternatePenalty < penalty)
@@ -1917,6 +1976,7 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
             }
             catch (Exception e)
             {
+                Serilog.Log.Error(e, this.GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " - errored out");
                 throw new Exception("Exception in ComputePenaltyCityStateWord: " + e.Message, e);
             }
 
@@ -2194,6 +2254,7 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
             }
             catch (Exception e)
             {
+                Serilog.Log.Error(e, this.GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " - errored out");
                 throw new Exception("Exception in ComputePenaltyCityMultiWord: " + e.Message, e);
             }
 
@@ -2237,6 +2298,7 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
             }
             catch (Exception e)
             {
+                Serilog.Log.Error(e, this.GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " - errored out");
                 throw new Exception("Exception in ComputePenaltyCityAlternateMultiWord: " + e.Message, e);
             }
 
@@ -2395,6 +2457,7 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
             }
             catch (Exception e)
             {
+                Serilog.Log.Error(e, this.GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " - errored out");
                 throw new Exception("Exception in ComputePenaltyCitySingleWord: " + e.Message, e);
             }
 
@@ -2440,6 +2503,7 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
             }
             catch (Exception e)
             {
+                Serilog.Log.Error(e, this.GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " - errored out");
                 throw new Exception("Exception in ComputePenaltyCitySingleWord: " + e.Message, e);
             }
 
