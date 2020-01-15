@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Reflection;
 using System.Text;
+using USC.GISResearchLab.AddressProcessing.Core.Parsing.AddressComponentMatching.MatchableAddressComponents.MultiTokenMatchers.AbstractClasses;
 using USC.GISResearchLab.AddressProcessing.Core.Standardizing.StandardizedAddresses.Lines.DeliveryAddressLines.Directionals;
 using USC.GISResearchLab.AddressProcessing.Core.Standardizing.StandardizedAddresses.Lines.DeliveryAddressLines.PostQualifiers;
 using USC.GISResearchLab.AddressProcessing.Core.Standardizing.StandardizedAddresses.Lines.DeliveryAddressLines.PreArticles;
@@ -1081,6 +1082,63 @@ namespace USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureMatchScorers.Abstr
                                 }
                             }
                             else
+                            {
+                                penalty = ComputeWeightedEditDistancePenalty(inputAddress.StreetName, featureAddress.StreetName, fullWeight);
+                            }
+                        }
+                        else if (new PostQualifierMatcher().HasMatch(0, featureAddress.StreetName)) // need to check if either the input or reference has a post-Article because parsing could have been messed up or the reference feature may not be parsed
+                        {
+                            if (!String.IsNullOrEmpty(inputAddress.PostArticle))
+                            {
+                                string postArticleAndName = inputAddress.StreetName + " " + inputAddress.PostArticle;
+                                if (String.Compare(postArticleAndName, featureAddress.StreetName, true) != 0)
+                                {
+                                    penalty = ComputeWeightedEditDistancePenalty(postArticleAndName, featureAddress.StreetName, fullWeight);
+                                }
+                            }
+                            else
+                            {
+                                penalty = ComputeWeightedEditDistancePenalty(inputAddress.StreetName, featureAddress.StreetName, fullWeight);
+                            }
+                        }
+                        else if (new PostQualifierMatcher().HasMatch(0, inputAddress.StreetName)) // need to check if either the input or reference has a post-Article because parsing could have been messed up or the reference feature may not be parsed
+                        {
+                            if (!String.IsNullOrEmpty(featureAddress.PostArticle))
+                            {
+                                string postArticleAndName = featureAddress.StreetName + " " + featureAddress.PostArticle;
+                                if (String.Compare(postArticleAndName, inputAddress.StreetName, true) != 0)
+                                {
+                                    penalty = ComputeWeightedEditDistancePenalty(postArticleAndName, featureAddress.StreetName, fullWeight);
+                                }
+                            }
+                            else
+                            {
+                                penalty = ComputeWeightedEditDistancePenalty(inputAddress.StreetName, featureAddress.StreetName, fullWeight);
+                            }
+                        }
+                        else if (!String.IsNullOrEmpty(parameterSet.StreetAddressInitialParse.PostQualifier)) // need to check if either the originally-parsed address has a post-Article because parsing could have been messed up or the reference feature may not be parsed
+                        {
+                            // this penalty is caused when an input address has a post qualifier, but the reference does not.
+                            // SOURCE_NAVTEQ_ADDRESSPOINTS_2016, for example, does not have post qualifiers, and it has not been processed/parsed to create them. And, when converting to USPS 28, the post qual is appended to Street Name
+                            // ex: 1236 AHTANUM RIDGE BUSINESS PARK yakima WA 98903
+                            string inputAddressWithoutPostQualifier = inputAddress.StreetName.Replace(parameterSet.StreetAddressInitialParse.PostQualifier, "");
+                            double tempPenalty = ComputeWeightedEditDistancePenalty(inputAddressWithoutPostQualifier, featureAddress.StreetName, fullWeight);
+
+                            // if there is a perfect match without the post qual, return a small penalty
+                            if (tempPenalty == 0)
+                            {
+                                if (parameterSet.ShouldUseRelaxation && parameterSet.RelaxableAttributes.Contains(AddressComponents.PostQualifier))
+                                {
+                                    // penalize zero if relaxation is allowed on post qualifiers
+                                    penalty = tempPenalty;
+                                }
+                                else
+                                {
+                                    // penalize half of full weight if post qualifier relaxation is not allowed
+                                    penalty = (AttributeWeightingScheme.ProportionalWeightPostQualifier / 2);
+                                }
+                            }
+                            else // if there is a not a perfect match without the post qual, return normal penalty
                             {
                                 penalty = ComputeWeightedEditDistancePenalty(inputAddress.StreetName, featureAddress.StreetName, fullWeight);
                             }
