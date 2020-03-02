@@ -80,7 +80,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
       <HintPath>..\..\..\_RepoConfig\SolutionFiles\Dev\packages\Serilog.2.9.0\lib\net45\Serilog.dll</HintPath>
     </Reference>
@@ -88,17 +87,6 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.EnterpriseServices" />
-    <Reference Include="System.Runtime.Serialization">
-      <RequiredTargetFramework>3.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.ServiceModel">
-      <RequiredTargetFramework>3.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Web.Services" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Algorithms\FeatureMatchScorers\AbstractClasses\AbstractMatchScorer.cs" />
@@ -179,11 +167,6 @@
       <Name>Geocoding.Core.Algorithms.FeatureMatching.MatchedFeature.Dev</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Geocoding.Core.Algorithms.FeatureMatching.TypeManager\src\Main\Geocoding.Core.Algorithms.FeatureMatching.TypeManager.Dev.csproj">
-      <Project>{498E38D7-C45A-493A-B04E-08C8B9AF54F5}</Project>
-      <Name>Geocoding.Core.Algorithms.FeatureMatching.TypeManager.Dev</Name>
-      <Private>False</Private>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\Geocoding.Core.Algorithms.FeatureMatching.Types\src\Main\Geocoding.Core.Algorithms.FeatureMatching.Types.Dev.csproj">
       <Project>{F301250A-6017-424D-96E7-C444CE1932D9}</Project>
       <Name>Geocoding.Core.Algorithms.FeatureMatching.Types.Dev</Name>
@@ -226,11 +209,6 @@
     <ProjectReference Include="..\..\..\Geocoding.Core.ReferenceDatasets.ReferenceSourceQueries.Results\src\Main\Geocoding.Core.ReferenceDatasets.ReferenceSourceQueries.Results.Dev.csproj">
       <Project>{AF385447-152E-47B3-B0D4-37557B24E50A}</Project>
       <Name>Geocoding.Core.ReferenceDatasets.ReferenceSourceQueries.Results.Dev</Name>
-      <Private>False</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Geocoding.Core.ReferenceDatasets.ReferenceSourceQueries\src\Main\Geocoding.Core.ReferenceDatasets.ReferenceSourceQueries.Dev.csproj">
-      <Project>{7EF4FA43-C253-47C1-B21E-3BCCE6435512}</Project>
-      <Name>Geocoding.Core.ReferenceDatasets.ReferenceSourceQueries.Dev</Name>
       <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
