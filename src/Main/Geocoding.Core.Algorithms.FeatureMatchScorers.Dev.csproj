@@ -178,9 +178,8 @@
       <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Geocoding.Core.Algorithms.FeatureMatchScorers.AttributeWeightingSchemes\src\Main\Geocoding.Core.Algorithms.FeatureMatchScorers.AttributeWeightingSchemes.Dev.csproj">
-      <Project>{F2ADB16B-A16C-4B1D-BBDE-6E09BC2EB82C}</Project>
+      <Project>{f2adb16b-a16c-4b1d-bbde-6e09bc2eb82c}</Project>
       <Name>Geocoding.Core.Algorithms.FeatureMatchScorers.AttributeWeightingSchemes.Dev</Name>
-      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Geocoding.Core.Algorithms.FeatureMatchScorers.MatchScoreResults\src\Main\Geocoding.Core.Algorithms.FeatureMatchScorers.MatchScoreResults.Dev.csproj">
       <Project>{1B0D73CF-1BF7-41EB-8792-E30319222AD7}</Project>
